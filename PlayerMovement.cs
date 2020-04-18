@@ -9,29 +9,16 @@ public class PlayerMovement : MonoBehaviour
     public float jumpForce;
     public float jumpTime;
     public Animator anim;
-    public float hitCoolDown;
-    public float shotHitCoolDown;
     private float cooldDown;
     private float shotCoolDown;
-    public GameObject hitFX;
     public Transform transformFX;
-    public Transform swordImpactPositionLeft;
-    public Transform swordImpactPositionRight;
-    public GameObject weaponColliderRight;
-    public GameObject weaponColliderLeft;
-    public GameObject shotWeaponColliderLeft;
-    public GameObject shotWeaponColliderRight;
     public Transform feetPos;
     public float checkRadius;
     public LayerMask whatIsGround;
-    private float resetTime;
-    public float resetTimeShot;
-    public float resetTimeSword;
+    public float resetTime;
     public float health = 5;
     public float money = 0;
     public float food = 0;
-    public float triggerImpactFXDelay = 0.2f;
-    public float triggerImpactFXDelayShot = 0.2f;
     private float moveInput;
     private Rigidbody2D rb;
     private float jumpTimeCounter;
@@ -73,6 +60,7 @@ public class PlayerMovement : MonoBehaviour
 
         yield return new WaitForSeconds(attacks[i].triggerImpactFXDelay);
         GameObject g = Instantiate(attacks[i].HitFX, transformFX);
+        g.GetComponent<DestroyFX>().destroyFX = true;
         if (moveDirection == false)
         {
             g.transform.position = attacks[i].ImpactPositionRight.transform.position;

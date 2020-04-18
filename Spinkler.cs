@@ -69,10 +69,10 @@ public class Spinkler : MonoBehaviour
 	}
 	private void Update()
 	{
-		if(health == 0)
+		if(health <= 0)
 		{
-			Instantiate(coin,coinHolder);
-			coin.transform.position = coinSpawnpoint.transform.position;
+			GameObject g = Instantiate(coin,coinHolder);
+			g.transform.position = coinSpawnpoint.transform.position;
 			Destroy(this.gameObject);
 		}
 		hittedDelay -= Time.deltaTime;

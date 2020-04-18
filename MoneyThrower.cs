@@ -8,7 +8,6 @@ public class MoneyThrower : MonoBehaviour
     public float maximumMoney;
     public GameObject money;
     public float currentMoney;
-    public PlayerMovement pm;
     public float maxX;
     public float minX;
     private void Start()
@@ -26,7 +25,6 @@ public class MoneyThrower : MonoBehaviour
             GameObject g =Instantiate(money,this.transform);
             Vector3 v =new Vector3(UnityEngine.Random.Range(minX,maxX),this.transform.position.y,this.transform.position.z);
             g.transform.position = v;
-            g.GetComponent<Money>().p = pm;
             g.GetComponent<Money>().m = this;
 
             currentMoney++;
