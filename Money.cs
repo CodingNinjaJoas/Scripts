@@ -7,6 +7,7 @@ public class Money : MonoBehaviour
 
     public MoneyThrower m;
     public PlayerMovement p;
+    public bool moneyT;
     private void Start()
     {
      
@@ -15,8 +16,11 @@ public class Money : MonoBehaviour
     {
         if(collision.transform.CompareTag("Player") == true)
         {
-            m.currentMoney--;
-            p.money++;
+            if (moneyT == true)
+            {
+                m.currentMoney--;
+            }
+            FindObjectOfType<PlayerMovement>().money++;
             Destroy(this.gameObject);
         }
     }
