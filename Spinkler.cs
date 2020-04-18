@@ -36,6 +36,10 @@ public class Spinkler : MonoBehaviour
 			health--;
 			this.gameObject.GetComponent<Rigidbody2D>().AddForceAtPosition(hitForce,other.transform.position);
 		}
+		if (other.CompareTag("InstaKill") == true)
+		{
+			Destroy(this.gameObject,0.2f);
+		}	
 	}
 	private void OnCollisionStay2D(Collision2D collision)
 	{

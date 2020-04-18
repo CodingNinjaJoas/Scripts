@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public List<Attack> attacks = new List<Attack>();
     public float speed;
     public float jumpForce;
     public float jumpTime;
@@ -13,7 +14,6 @@ public class PlayerMovement : MonoBehaviour
     private float cooldDown;
     private float shotCoolDown;
     public GameObject hitFX;
-    public GameObject hitFXShot;
     public Transform transformFX;
     public Transform swordImpactPositionLeft;
     public Transform swordImpactPositionRight;
@@ -40,6 +40,7 @@ public class PlayerMovement : MonoBehaviour
     private bool moveDirection = false;//false == right,true==left
     private bool boolToSetB;
     private string boolToSetS;
+    private int i = 0;
     void Start()
     {
         rb = this.GetComponent<Rigidbody2D>();
@@ -47,23 +48,24 @@ public class PlayerMovement : MonoBehaviour
 
     void Sword()
     {
-        if (cooldDown <= 0)
+
+        if (attacks[i].coolDown <= 0)
         {
             if (moveDirection == false)
             {
-                weaponColliderRight.SetActive(true);
+                attacks[i].weaponColliderRight.SetActive(true);
             }
             if (moveDirection == true)
             {
-                weaponColliderLeft.SetActive(true);
+                attacks[i].weaponColliderRight.SetActive(true);
             }
-            cooldDown = hitCoolDown;
-            anim.SetBool("SwordHit", true);
+            attacks[i].coolDown = attacks[i].attackCoolDown;
+            anim.SetBool(attacks[i].boolToSetS, true);
             StartCoroutine("TriggerFX");
             boolToSetB = false;
-            boolToSetS = "SwordHit";
+            boolToSetS = attacks[i].boolToSetS;
             StartCoroutine("ResetVal");
-            resetTime = resetTimeSword;
+            resetTime = attacks[i].resetTime;
         }
     }
        public void Shot()
@@ -80,7 +82,7 @@ public class PlayerMovement : MonoBehaviour
                 }
                 shotCoolDown = shotHitCoolDown;
                 anim.SetBool("Shot", true);
-                StartCoroutine("TriggerFXShot");
+
                 boolToSetB = false;
                 boolToSetS = "Shot";
                 StartCoroutine("ResetVal");
@@ -91,48 +93,41 @@ public class PlayerMovement : MonoBehaviour
     
     public IEnumerator TriggerFX()
     {
-        yield return new WaitForSeconds(triggerImpactFXDelay);
-        GameObject g = Instantiate(hitFX, transformFX);
+
+        yield return new WaitForSeconds(attacks[i].triggerImpactFXDelay);
+        GameObject g = Instantiate(attacks[i].HitFX, transformFX);
         if (moveDirection == false)
         {
-            g.transform.position = swordImpactPositionRight.transform.position;
+            g.transform.position = attacks[i].ImpactPositionRight.transform.position;
         }
         if (moveDirection == true)
         {
-            g.transform.position = swordImpactPositionLeft.transform.position;
+            g.transform.position = attacks[i].ImpactPositionLeft.transform.position;
         }
     }
-    public IEnumerator TriggerFXShot()
-    {
-        yield return new WaitForSeconds(triggerImpactFXDelayShot);
-        GameObject g = Instantiate(hitFXShot, transformFX);
-        if (moveDirection == false)
-        {
-            g.transform.position = shotWeaponColliderRight.transform.position;
-        }
-        if (moveDirection == true)
-        {
-            g.transform.position = shotWeaponColliderRight.transform.position;
-        }
-    }
+
     public IEnumerator ResetVal()
     {
         yield return new WaitForSeconds(resetTime);
         anim.SetBool(boolToSetS,boolToSetB);
-        weaponColliderLeft.SetActive(false);
-        weaponColliderRight.SetActive(false);
+        attacks[i].weaponColliderRight.SetActive(false);
+        attacks[i].weaponColliderLeft.SetActive(false);
     }
     void Update()    
     {
         if (Input.GetMouseButtonDown(0))
         {
+            Debug.Log("Clicked");
             Sword();
         }
         if (Input.GetMouseButtonDown(1))
         {
             Shot();
         }
-        cooldDown -= Time.deltaTime;
+        foreach(Attack a in attacks)
+        {
+            a.coolDown -= Time.deltaTime;
+        }
         shotCoolDown -= Time.deltaTime;
         if (health <= 0)
         {
