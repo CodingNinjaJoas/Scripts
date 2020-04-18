@@ -5,7 +5,9 @@ using UnityEngine;
 public class Spinkler : MonoBehaviour
 {
 	public float speed;
+	public float health;
 	public float delay;
+	public Vector2 hitForce;
 	public GameObject player;
 	public GameObject target;
 	public float hitDelay;
@@ -27,6 +29,14 @@ public class Spinkler : MonoBehaviour
 			this.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(speed, 0);
 		}
 	}
+	private void OnTriggerEnter2D(Collider2D other)
+	{
+		if (other.CompareTag("WeaponCollider") == true)
+		{
+			health--;
+			this.gameObject.GetComponent<Rigidbody2D>().AddForceAtPosition(hitForce,other.transform.position);
+		}
+	}
 	private void OnCollisionStay2D(Collision2D collision)
 	{
 		if (hittedDelay <= 0)
@@ -45,6 +55,11 @@ public class Spinkler : MonoBehaviour
 	}
 	private void Update()
 	{
+		if(health == 0)
+		{
+			//spawn some money
+			Destroy(this.gameObject);
+		}
 		hittedDelay -= Time.deltaTime;
 	}
 }
