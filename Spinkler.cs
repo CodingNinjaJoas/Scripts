@@ -7,6 +7,7 @@ public class Spinkler : MonoBehaviour
 	public float speed;
 	public float delay;
 	public GameObject player;
+	public GameObject target;
 	public float hitDelay;
 	private float hittedDelay;
 	private void Start()
@@ -15,12 +16,12 @@ public class Spinkler : MonoBehaviour
 	}
 	private void Move()
 	{
-		if(player.transform.position.x <=this.transform.position.x)
+		if(target.transform.position.x <=this.transform.position.x)
 		{
 			this.gameObject.GetComponent<SpriteRenderer>().flipX = true;
 			this.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(-speed,0);
 		}
-		if (player.transform.position.x >= this.transform.position.x)
+		if (target.transform.position.x >= this.transform.position.x)
 		{
 			this.gameObject.GetComponent<SpriteRenderer>().flipX = false;
 			this.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(speed, 0);
@@ -37,7 +38,7 @@ public class Spinkler : MonoBehaviour
 			}
 			if (collision.transform.CompareTag("Fimbledore") == true)
 			{
-				player.GetComponent<PlayerMovement>().health--;
+				target.GetComponent<FimbleDore>().health--;
 				hittedDelay = hitDelay;
 			}
 		}
