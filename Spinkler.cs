@@ -34,7 +34,14 @@ public class Spinkler : MonoBehaviour
 		if (other.CompareTag("WeaponCollider") == true)
 		{
 			health--;
-			this.gameObject.GetComponent<Rigidbody2D>().AddForceAtPosition(hitForce,other.transform.position);
+			if (player.transform.position.x >= this.transform.position.x)
+			{
+				this.gameObject.GetComponent<Rigidbody2D>().AddForce(-hitForce);
+			}
+			else
+			{
+				this.gameObject.GetComponent<Rigidbody2D>().AddForce(hitForce);
+			}
 		}
 		if (other.CompareTag("InstaKill") == true)
 		{

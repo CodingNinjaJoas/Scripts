@@ -46,7 +46,7 @@ public class PlayerMovement : MonoBehaviour
         rb = this.GetComponent<Rigidbody2D>();
     }
 
-    void Sword()
+    void Attack()
     {
 
         if (attacks[i].coolDown <= 0)
@@ -57,7 +57,7 @@ public class PlayerMovement : MonoBehaviour
             }
             if (moveDirection == true)
             {
-                attacks[i].weaponColliderRight.SetActive(true);
+                attacks[i].weaponColliderLeft.SetActive(true);
             }
             attacks[i].coolDown = attacks[i].attackCoolDown;
             anim.SetBool(attacks[i].boolToSetS, true);
@@ -67,30 +67,7 @@ public class PlayerMovement : MonoBehaviour
             StartCoroutine("ResetVal");
             resetTime = attacks[i].resetTime;
         }
-    }
-       public void Shot()
-        {
-            if (shotCoolDown <= 0)
-            {
-                if (moveDirection == false)
-                {
-                    shotWeaponColliderRight.SetActive(true);
-                }
-                if (moveDirection == true)
-                {
-                    shotWeaponColliderLeft.SetActive(true);
-                }
-                shotCoolDown = shotHitCoolDown;
-                anim.SetBool("Shot", true);
-
-                boolToSetB = false;
-                boolToSetS = "Shot";
-                StartCoroutine("ResetVal");
-            resetTime = resetTimeShot;
-            }
-
-        }
-    
+    } 
     public IEnumerator TriggerFX()
     {
 
@@ -117,18 +94,18 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("Clicked");
-            Sword();
+            i = 0;
+           Attack();
         }
         if (Input.GetMouseButtonDown(1))
         {
-            Shot();
+            i = 1;
+            Attack();
         }
-        foreach(Attack a in attacks)
+        foreach (Attack a in attacks)
         {
             a.coolDown -= Time.deltaTime;
         }
-        shotCoolDown -= Time.deltaTime;
         if (health <= 0)
         {
             Die();
