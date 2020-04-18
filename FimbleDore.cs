@@ -16,7 +16,6 @@ public class FimbleDore : MonoBehaviour
     public bool loseFoodBool = true;
     public string intString;
     public bool dialoguePlayed = false;
-    int firstRun = 0;
     public PlayerMovement p;
 
     public void OnTriggerEnter2D(Collider2D collision)
@@ -44,8 +43,9 @@ public class FimbleDore : MonoBehaviour
         {
             if (food <= 0 && p.food >0)
             {
-                pressEText.SetActive(true);
                 outline.SetActive(true);
+                pressEText.SetActive(true);
+         
             }
         }
         else
@@ -53,6 +53,11 @@ public class FimbleDore : MonoBehaviour
             pressEText.SetActive(false);
             outline.SetActive(false);
         }
+    }
+    public void OnTriggerExit2D(Collider2D collision)
+    {
+        pressEText.SetActive(false);
+        outline.SetActive(false);
     }
     public void Start()
     {

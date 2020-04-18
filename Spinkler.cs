@@ -9,6 +9,9 @@ public class Spinkler : MonoBehaviour
 	public float delay;
 	public Vector2 hitForce;
 	public GameObject player;
+	public GameObject coin;
+	public Transform coinSpawnpoint;
+	public Transform coinHolder;
 	public GameObject target;
 	public float hitDelay;
 	private float hittedDelay;
@@ -68,7 +71,8 @@ public class Spinkler : MonoBehaviour
 	{
 		if(health == 0)
 		{
-			//spawn some money
+			Instantiate(coin,coinHolder);
+			coin.transform.position = coinSpawnpoint.transform.position;
 			Destroy(this.gameObject);
 		}
 		hittedDelay -= Time.deltaTime;
