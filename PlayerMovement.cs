@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask whatIsGround;
 
     public float health = 5;
-
+    public float money = 0;
 
     private float moveInput;
     private Rigidbody2D rb;
@@ -29,12 +29,16 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (health <= 0)
+        {
+            Die();
+        }
         moveInput = Input.GetAxisRaw("Horizontal");
-        if(moveInput > 0)
+        if (moveInput > 0)
         {
             moveDirection = false;
         }
-        if(moveInput < 0)
+        if (moveInput < 0)
         {
             moveDirection = true;
         }
@@ -71,7 +75,7 @@ public class PlayerMovement : MonoBehaviour
 
             this.GetComponent<SpriteRenderer>().flipX = false;
         }
-        if(moveDirection == true)
+        if (moveDirection == true)
         {
             this.GetComponent<SpriteRenderer>().flipX = true;
 
@@ -79,6 +83,6 @@ public class PlayerMovement : MonoBehaviour
     }
     public void Die()
     {
-
+        Debug.Log("Die");
     }
 }

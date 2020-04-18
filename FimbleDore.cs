@@ -10,21 +10,22 @@ public class FimbleDore : MonoBehaviour
     public GameObject foodNeededPicture;
     public GameObject dialogue;
     public float losefoodTime;
-    public bool firstTime = true;
+    public bool loseFoodBool = true;
     public string intString;
     public bool dialoguePlayed = false;
+    int firstRun = 0;
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        if (PlayerPrefs.GetInt(intString) == 0)
+        if (PlayerPrefs.GetInt(intString)==0)
         {
             if (collision.transform.CompareTag("Player") == true)
             {
-                if (dialoguePlayed == false)
-                {
-                    dialogue.SetActive(true);
-                    dialoguePlayed = true;
-                }
+
+
+                dialogue.SetActive(true);
+                PlayerPrefs.SetInt(intString, 1);
+
             }
             else
             {
@@ -34,18 +35,9 @@ public class FimbleDore : MonoBehaviour
     }
     public void Start()
     {
-
-        if (PlayerPrefs.GetInt(intString)==1)
-        {
-            
-            InvokeRepeating("loseFood", losefoodTime, losefoodTime);
-            firstTime = true;
-        }
-        else
-        {
-            PlayerPrefs.SetInt(intString,0);
-        }
+        
     }
+
     public void Update()
     {
         if (food <= 1)
@@ -62,11 +54,11 @@ public class FimbleDore : MonoBehaviour
         {
             Die();
         }
-        if(firstTime == false)
+        if(loseFoodBool == false)
         {
             InvokeRepeating("loseFood", losefoodTime, losefoodTime);
-            PlayerPrefs.SetInt(intString, 0);
-            firstTime = true;
+        
+            loseFoodBool = true;
         }
     }
     public void loseFood()
@@ -82,7 +74,7 @@ public class FimbleDore : MonoBehaviour
     }
     void Die()
     {
-        
+        Debug.Log("Fimble died man");
     }
 
 }
