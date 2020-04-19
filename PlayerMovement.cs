@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     public float jumpForce;
     public float jumpTime;
     public Animator anim;
+    public GameObject jumpFX;
     public Transform transformFX;
     public Transform feetPos;
     public float checkRadius;
@@ -17,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
     public float health = 5;
     public float money = 0;
     public float food = 0;
+    public float damage = 1;
     private float moveInput;
     private Rigidbody2D rb;
     private float jumpTimeCounter;
@@ -25,8 +27,10 @@ public class PlayerMovement : MonoBehaviour
     private bool moveDirection = false;//false == right,true==left
     private bool boolToSetB;
     private string boolToSetS;
+    public bool gamePause;
     public Color color;
     public CameraShake cameraS;
+    private bool colorChange = false;
     private int i = 0;
     void Start()
     {
@@ -34,9 +38,15 @@ public class PlayerMovement : MonoBehaviour
     }
     public IEnumerator GotHit()
     {
+        colorChange = true;
         this.gameObject.GetComponent<SpriteRenderer>().color = color;
         yield return new WaitForSeconds(0.2f);
         this.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+    }
+    public IEnumerator ColorChange()
+    {
+        yield return new WaitForSeconds(0.2f);
+        colorChange = false;
     }
     void Attack()
     {
@@ -74,7 +84,7 @@ public class PlayerMovement : MonoBehaviour
         {
             g.transform.position = attacks[i].ImpactPositionLeft.transform.position;
         }
-        StartCoroutine(cameraS.Shake());
+        StartCoroutine(cameraS.BigShake());
     }
 
     public IEnumerator ResetVal()
@@ -86,13 +96,19 @@ public class PlayerMovement : MonoBehaviour
     }
     void Update()    
     {
+        if (colorChange == false)
+        {
+            this.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+        }
         if (Input.GetMouseButtonDown(0))
         {
+
             i = 0;
            Attack();
         }
         if (Input.GetMouseButtonDown(1))
         {
+            this.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
             i = 1;
             Attack();
         }
@@ -118,6 +134,8 @@ public class PlayerMovement : MonoBehaviour
         isGrounded = Physics2D.OverlapCircle(feetPos.position, checkRadius, whatIsGround);
         if (isGrounded == true && Input.GetKeyDown(KeyCode.Space))
         {
+            GameObject g = Instantiate(jumpFX,transformFX);
+            g.transform.position = feetPos.transform.position;
             IsJumping = true;
             jumpTimeCounter = jumpTime;
             rb.velocity = Vector2.up * jumpForce;

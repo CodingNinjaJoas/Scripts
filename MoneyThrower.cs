@@ -16,6 +16,7 @@ public class MoneyThrower : MonoBehaviour
     }
     void ThrowMoney()
     {
+        
         if(currentMoney >= maximumMoney)
         {
             return;

@@ -9,12 +9,20 @@ public class CameraShake : MonoBehaviour
     public Vector3 offset;
     public Animator cameraAnim;
     public float waitTime;
+    public float waitTimeBig;
     public IEnumerator Shake()
     {
         cameraAnim.SetBool("Shake",true);
         yield return new WaitForSeconds(waitTime);
         cameraAnim.SetBool("Shake",false);
     }
+    public IEnumerator BigShake()
+    {
+        cameraAnim.SetBool("BigShake", true);
+        yield return new WaitForSeconds(waitTimeBig);
+        cameraAnim.SetBool("BigShake", false);
+    }
+
 
     private void FixedUpdate()
     {

@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Spinkler : MonoBehaviour
+public class Flyer : MonoBehaviour
 {
 	public float speed;
 	public float health;
-	public float delay;
 	public Vector2 hitForce;
 	public GameObject player;
 	public GameObject coin;
@@ -14,11 +13,13 @@ public class Spinkler : MonoBehaviour
 	public Transform coinHolder;
 	public GameObject target;
 	public CameraShake cameraS;
+	public GameObject bomb;
 	public float hitDelay;
 	private float hittedDelay;
+	
 	private void Start()
 	{
-		InvokeRepeating("Move",delay,delay);
+		
 	}
 	private void Move()
 	{
@@ -26,13 +27,15 @@ public class Spinkler : MonoBehaviour
 		{
 			if (target.transform.position.x <= this.transform.position.x)
 			{
+				this.transform.position = new Vector3(this.transform.position.x-speed,this.transform.position.y,this.transform.position.z);
 				this.gameObject.GetComponent<SpriteRenderer>().flipX = true;
-				this.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(-speed, 0);
+			
 			}
 			if (target.transform.position.x >= this.transform.position.x)
 			{
+				this.transform.position = new Vector3(this.transform.position.x + speed, this.transform.position.y, this.transform.position.z);
 				this.gameObject.GetComponent<SpriteRenderer>().flipX = false;
-				this.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(speed, 0);
+				
 			}
 		}
 	}
@@ -52,8 +55,20 @@ public class Spinkler : MonoBehaviour
 		}
 		if (other.CompareTag("InstaKill") == true)
 		{
-			Destroy(this.gameObject,0.2f);
-		}	
+			Destroy(this.gameObject, 0.2f);
+		}
+	}
+
+	private void Update()
+	{
+		Move (); 
+		if (health <= 0)
+		{
+			GameObject g = Instantiate(coin, coinHolder);
+			g.transform.position = coinSpawnpoint.transform.position;
+			Destroy(this.gameObject);
+		}
+		hittedDelay -= Time.deltaTime;
 	}
 	private void OnCollisionStay2D(Collision2D collision)
 	{
@@ -78,12 +93,6 @@ public class Spinkler : MonoBehaviour
 	}
 	private void Update()
 	{
-		if(health <= 0)
-		{
-			GameObject g = Instantiate(coin,coinHolder);
-			g.transform.position = coinSpawnpoint.transform.position;
-			Destroy(this.gameObject);
-		}
 		hittedDelay -= Time.deltaTime;
 	}
 }
