@@ -8,11 +8,14 @@ public class Spinkler : MonoBehaviour
 	public float health;
 	public float delay;
 	public Vector2 hitForce;
+	public float shakeMag;
+	public float shakeDur;
 	public GameObject player;
 	public GameObject coin;
 	public Transform coinSpawnpoint;
 	public Transform coinHolder;
 	public GameObject target;
+	public CameraShake cameraS;
 	public float hitDelay;
 	private float hittedDelay;
 	private void Start()
@@ -59,10 +62,13 @@ public class Spinkler : MonoBehaviour
 			{
 				player.GetComponent<PlayerMovement>().health--;
 				hittedDelay = hitDelay;
+				StartCoroutine(cameraS.Shake());
+				StartCoroutine(player.GetComponent<PlayerMovement>().GotHit());
 			}
 			if (collision.transform.CompareTag("Fimbledore") == true)
 			{
 				target.GetComponent<FimbleDore>().health--;
+				target.GetComponent<FimbleDore>().GotHit();
 				hittedDelay = hitDelay;
 			}
 		}

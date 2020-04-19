@@ -17,7 +17,13 @@ public class FimbleDore : MonoBehaviour
     public string intString;
     public bool dialoguePlayed = false;
     public PlayerMovement p;
-
+    public Color color;
+    public IEnumerator GotHit()
+    {
+        this.gameObject.GetComponentInChildren<SpriteRenderer>().color = color;
+        yield return new WaitForSeconds(0.2f);
+        this.gameObject.GetComponentInChildren<SpriteRenderer>().color = Color.white;
+    }
     public void OnTriggerEnter2D(Collider2D collision)
     {
         if (PlayerPrefs.GetInt(intString)==0)

@@ -9,8 +9,6 @@ public class PlayerMovement : MonoBehaviour
     public float jumpForce;
     public float jumpTime;
     public Animator anim;
-    private float cooldDown;
-    private float shotCoolDown;
     public Transform transformFX;
     public Transform feetPos;
     public float checkRadius;
@@ -27,12 +25,19 @@ public class PlayerMovement : MonoBehaviour
     private bool moveDirection = false;//false == right,true==left
     private bool boolToSetB;
     private string boolToSetS;
+    public Color color;
+    public CameraShake cameraS;
     private int i = 0;
     void Start()
     {
         rb = this.GetComponent<Rigidbody2D>();
     }
-
+    public IEnumerator GotHit()
+    {
+        this.gameObject.GetComponent<SpriteRenderer>().color = color;
+        yield return new WaitForSeconds(0.2f);
+        this.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+    }
     void Attack()
     {
 
@@ -69,6 +74,7 @@ public class PlayerMovement : MonoBehaviour
         {
             g.transform.position = attacks[i].ImpactPositionLeft.transform.position;
         }
+        StartCoroutine(cameraS.Shake());
     }
 
     public IEnumerator ResetVal()
