@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -28,16 +29,26 @@ public class PlayerMovement : MonoBehaviour
     private bool boolToSetB;
     private string boolToSetS;
     public bool gamePause;
+    public bool gamePauseN;
+    public string intString;
     public Color color;
     public CameraShake cameraS;
+    public AudioManager am;
     private bool colorChange = false;
     private int i = 0;
     void Start()
     {
+        am = FindObjectOfType<AudioManager>();
         rb = this.GetComponent<Rigidbody2D>();
+        if (PlayerPrefs.GetInt(intString) == 0)
+        {
+           
+            gamePauseN = true;
+        }
     }
     public IEnumerator GotHit()
     {
+        am.Play("Hit");
         colorChange = true;
         this.gameObject.GetComponent<SpriteRenderer>().color = color;
         yield return new WaitForSeconds(0.2f);
@@ -47,10 +58,19 @@ public class PlayerMovement : MonoBehaviour
     {
         yield return new WaitForSeconds(0.2f);
         colorChange = false;
+        this.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
     }
     void Attack()
     {
-
+        
+        if (i == 0)
+        {
+            am.Play("SwordAttack");
+        }
+        if (i == 1)
+        {
+            am.Play("MagicAttack");
+        }
         if (attacks[i].coolDown <= 0)
         {
             if (moveDirection == false)
@@ -135,6 +155,7 @@ public class PlayerMovement : MonoBehaviour
         if (isGrounded == true && Input.GetKeyDown(KeyCode.Space))
         {
             GameObject g = Instantiate(jumpFX,transformFX);
+            g.GetComponent<DestroyFX>().destroyFX = true;
             g.transform.position = feetPos.transform.position;
             IsJumping = true;
             jumpTimeCounter = jumpTime;
@@ -173,6 +194,6 @@ public class PlayerMovement : MonoBehaviour
     }
     public void Die()
     {
-        Debug.Log("Die");
+        SceneManager.LoadScene(3);
     }
 }

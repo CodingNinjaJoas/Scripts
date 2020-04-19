@@ -8,28 +8,40 @@ public class Bomb : MonoBehaviour
 	public PlayerMovement player;
 	public FimbleDore target;
 	public CameraShake cameraS;
+	public GameObject explosionFX;
+	public Transform holderFX;
 	private void Start()
 	{
-
-		if (Physics2D.OverlapCircle(transform.position, range))
-		{
-			Collider2D collision = Physics2D.OverlapCircle(transform.position, range);
-			if (collision.CompareTag("Player") == true)
-			{
-				player.health--;
-				StartCoroutine(cameraS.Shake());
-				StartCoroutine(player.GotHit());
-				StartCoroutine(player.ColorChange());
-			}
-			if (collision.CompareTag("FimbleDore") == true)
-			{
-				target.health--;
-				target.GotHit();
-			}
-
-		}
-				
-			
+		
 	}
+	private void OnCollisionEnter2D(Collision2D other)
+	{
+	
+			if (Physics2D.OverlapCircle(transform.position, range))
+			{
+				GameObject g = Instantiate(explosionFX, holderFX);
+				g.transform.position = this.transform.position;
+				g.GetComponent<DestroyFX>().destroyFX = true;
+				Collider2D collision = Physics2D.OverlapCircle(transform.position, range);
+				if (collision.CompareTag("Player") == true)
+				{
+					player.health--;
+					StartCoroutine(cameraS.Shake());
+					StartCoroutine(player.GotHit());
+					StartCoroutine(player.ColorChange());
+				}
+				if (collision.CompareTag("Fimbledore") == true)
+				{
+					target.health--;
+					target.GotHit();
+				}
+				Destroy(this.gameObject);
+
+			}
+		
+		
+	
+	}
+
 
 }

@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 
 public class FimbleDore : MonoBehaviour
 {
@@ -18,6 +18,7 @@ public class FimbleDore : MonoBehaviour
     public bool dialoguePlayed = false;
     public PlayerMovement p;
     public Color color;
+    
     public IEnumerator GotHit()
     {
         this.gameObject.GetComponentInChildren<SpriteRenderer>().color = color;
@@ -53,6 +54,14 @@ public class FimbleDore : MonoBehaviour
                 pressEText.SetActive(true);
          
             }
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                if (p.food > 0)
+                {
+                    food += baseFood;
+                    p.food--;
+                }
+            }
         }
         else
         {
@@ -67,19 +76,12 @@ public class FimbleDore : MonoBehaviour
     }
     public void Start()
     {
-        
+    
     }
 
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            if (p.food > 0)
-            {
-                food +=baseFood;
-                p.food--;
-            }
-        }
+       
         if (food <= 1)
         {
             foodNeededPicture.SetActive(true);
@@ -103,18 +105,24 @@ public class FimbleDore : MonoBehaviour
     }
     public void loseFood()
     {
-        if(food > 0)
+        if (p.gamePause == false)
         {
-            food--;
-        }
-        else
-        {
-            health--;
+            if (p.gamePauseN == false)
+            {
+                if (food > 0)
+                {
+                    food--;
+                }
+                else
+                {
+                    health--;
+                }
+            }
         }
     }
-    void Die()
+    public void Die()
     {
-        Debug.Log("Fimble died man");
+        SceneManager.LoadScene(2);
     }
 
 }

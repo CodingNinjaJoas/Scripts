@@ -22,17 +22,20 @@ public class Spinkler : MonoBehaviour
 	}
 	private void Move()
 	{
-		if (player.GetComponent<PlayerMovement>().gamePause == false)
+		if (player.GetComponent<PlayerMovement>().gamePauseN == false)
 		{
-			if (target.transform.position.x <= this.transform.position.x)
+			if (player.GetComponent<PlayerMovement>().gamePause == false)
 			{
-				this.gameObject.GetComponent<SpriteRenderer>().flipX = true;
-				this.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(-speed, 0);
-			}
-			if (target.transform.position.x >= this.transform.position.x)
-			{
-				this.gameObject.GetComponent<SpriteRenderer>().flipX = false;
-				this.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(speed, 0);
+				if (target.transform.position.x <= this.transform.position.x)
+				{
+					this.gameObject.GetComponent<SpriteRenderer>().flipX = true;
+					this.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(-speed, 0);
+				}
+				if (target.transform.position.x >= this.transform.position.x)
+				{
+					this.gameObject.GetComponent<SpriteRenderer>().flipX = false;
+					this.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(speed, 0);
+				}
 			}
 		}
 	}

@@ -16,14 +16,17 @@ public class EnemySpawner : MonoBehaviour
 	{
 		if (p.gamePause == false)
 		{
-			int i = UnityEngine.Random.Range(0, spawnPoints.Count);
-			GameObject g = Instantiate(enemies[UnityEngine.Random.Range(0, enemies.Count - 1)], spawnPoints[i].transform);
-			if (g == null)
+			if (p.gamePauseN == false)
 			{
-				return;
+				int i = UnityEngine.Random.Range(0, spawnPoints.Count);
+				GameObject g = Instantiate(enemies[UnityEngine.Random.Range(0, enemies.Count - 1)], spawnPoints[i].transform);
+				if (g == null)
+				{
+					return;
 
+				}
+				g.transform.position = spawnPoints[i].transform.position;
 			}
-			g.transform.position = spawnPoints[i].transform.position;
 		}
 	}
 }

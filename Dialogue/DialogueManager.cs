@@ -69,6 +69,7 @@ public class DialogueManager : MonoBehaviour
 	{
 		conversationStart.SetActive(false);
 		animator.SetBool("IsOpen", false);
+		FindObjectOfType<PlayerMovement>().gamePauseN = false;
 		
 	}
 

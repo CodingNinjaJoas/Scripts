@@ -50,8 +50,20 @@ public class ShopManager : MonoBehaviour
             } 
         }
     }
-    void Update()
+    public void HealthRestore()
     {
-        
+        if (p.money >= 400)
+        {
+            p.money -= 400;
+            p.health = 10;
+        }
+    }
+    public void HealthRestoreFimble()
+    {
+        if (p.money >= 600)
+        {
+            p.money -= 600;
+            FindObjectOfType<FimbleDore>().health = 10;
+        }
     }
 }

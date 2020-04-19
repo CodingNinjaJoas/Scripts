@@ -11,16 +11,19 @@ public class Shop : MonoBehaviour
     public PlayerMovement p;
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player") == true && gamePause == false)
+        if (p.gamePauseN == false)
         {
-            interactionUI.SetActive(true);
-        }
-        if (collision.CompareTag("Player") == true && Input.GetKeyDown(KeyCode.E))
-        {
-            shopUI.SetActive(!shopUI.activeSelf);
-            coreUI.SetActive(!coreUI.activeSelf);
-            gamePause = true;
-            interactionUI.SetActive(false);
+            if (collision.CompareTag("Player") == true && gamePause == false)
+            {
+                interactionUI.SetActive(true);
+            }
+            if (collision.CompareTag("Player") == true && Input.GetKeyDown(KeyCode.E))
+            {
+                shopUI.SetActive(!shopUI.activeSelf);
+                coreUI.SetActive(!coreUI.activeSelf);
+                gamePause = true;
+                interactionUI.SetActive(false);
+            }
         }
     }
     public void Update()
