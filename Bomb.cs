@@ -4,29 +4,32 @@ using UnityEngine;
 
 public class Bomb : MonoBehaviour
 {
-	private void OnCollisionStay2D(Collision2D collision)
+	public float range;
+	public PlayerMovement player;
+	public FimbleDore target;
+	public CameraShake cameraS;
+	private void Start()
 	{
-		if (hittedDelay <= 0)
-		{
-			if (collision.transform.CompareTag("Player") == true)
-			{
-				player.GetComponent<PlayerMovement>().health--;
-				hittedDelay = hitDelay;
-				StartCoroutine(cameraS.Shake());
-				StartCoroutine(player.GetComponent<PlayerMovement>().GotHit());
-				StartCoroutine(player.GetComponent<PlayerMovement>().ColorChange());
 
-			}
-			if (collision.transform.CompareTag("Fimbledore") == true)
+		if (Physics2D.OverlapCircle(transform.position, range))
+		{
+			Collider2D collision = Physics2D.OverlapCircle(transform.position, range);
+			if (collision.CompareTag("Player") == true)
 			{
-				target.GetComponent<FimbleDore>().health--;
-				target.GetComponent<FimbleDore>().GotHit();
-				hittedDelay = hitDelay;
+				player.health--;
+				StartCoroutine(cameraS.Shake());
+				StartCoroutine(player.GotHit());
+				StartCoroutine(player.ColorChange());
 			}
+			if (collision.CompareTag("FimbleDore") == true)
+			{
+				target.health--;
+				target.GotHit();
+			}
+
 		}
+				
+			
 	}
-	private void Update()
-	{
-		hittedDelay -= Time.deltaTime;
-	}
+
 }

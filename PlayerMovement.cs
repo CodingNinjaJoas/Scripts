@@ -102,7 +102,7 @@ public class PlayerMovement : MonoBehaviour
         }
         if (Input.GetMouseButtonDown(0))
         {
-
+            this.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
             i = 0;
            Attack();
         }

@@ -16,6 +16,7 @@ public class Flyer : MonoBehaviour
 	public GameObject bomb;
 	public float hitDelay;
 	private float hittedDelay;
+	public Transform bombHolder;
 	
 	private void Start()
 	{
@@ -61,7 +62,14 @@ public class Flyer : MonoBehaviour
 
 	private void Update()
 	{
-		Move (); 
+		if (hittedDelay <= 0&& Vector2.Distance(player.transform.position,this.transform.position)<2)
+		{
+			hittedDelay = hitDelay;
+			GameObject g = Instantiate(bomb, bombHolder);
+			g.transform.position = this.transform.position;
+		}
+
+		Move(); 
 		if (health <= 0)
 		{
 			GameObject g = Instantiate(coin, coinHolder);
@@ -70,29 +78,9 @@ public class Flyer : MonoBehaviour
 		}
 		hittedDelay -= Time.deltaTime;
 	}
-	private void OnCollisionStay2D(Collision2D collision)
-	{
-		if (hittedDelay <= 0)
-		{
-			if (collision.transform.CompareTag("Player") == true)
-			{
-				player.GetComponent<PlayerMovement>().health--;
-				hittedDelay = hitDelay;
-				StartCoroutine(cameraS.Shake());
-				StartCoroutine(player.GetComponent<PlayerMovement>().GotHit());
-				StartCoroutine(player.GetComponent<PlayerMovement>().ColorChange());
 
-			}
-			if (collision.transform.CompareTag("Fimbledore") == true)
-			{
-				target.GetComponent<FimbleDore>().health--;
-				target.GetComponent<FimbleDore>().GotHit();
-				hittedDelay = hitDelay;
-			}
-		}
-	}
-	private void Update()
-	{
-		hittedDelay -= Time.deltaTime;
-	}
+
+
+		
+	
 }
