@@ -10,16 +10,11 @@ public class MainMenuManager : MonoBehaviour
     public GameObject main;
     public GameObject options;
     public GameObject quit;
-    public float musicVolume;
-    public Slider musicVolS;
-    public Text musicD;
-
+    public Text scoreHT;
     public void Update()
     {
+        scoreHT.text = "Highscore: "+ Mathf.Round(PlayerPrefs.GetFloat("Highscore"));
 
-        musicVolume = musicVolS.value;
-        musicD.text = "" + musicVolume;
-        PlayerPrefs.SetFloat("musicVol", musicVolume);
     }
     public void OpenMain()
     {

@@ -52,17 +52,17 @@ public class ShopManager : MonoBehaviour
     }
     public void HealthRestore()
     {
-        if (p.money >= 400)
+        if (p.money >= 300)
         {
-            p.money -= 400;
+            p.money -= 300;
             p.health = 10;
         }
     }
     public void HealthRestoreFimble()
     {
-        if (p.money >= 600)
+        if (p.money >= 300)
         {
-            p.money -= 600;
+            p.money -= 300;
             FindObjectOfType<FimbleDore>().health = 10;
         }
     }

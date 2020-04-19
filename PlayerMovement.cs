@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
 {
     public List<Attack> attacks = new List<Attack>();
     public float speed;
+    public float score;
     public float jumpForce;
     public float jumpTime;
     public Animator anim;
@@ -116,6 +117,13 @@ public class PlayerMovement : MonoBehaviour
     }
     void Update()    
     {
+        if (!gamePauseN)
+        {
+            if (!gamePause)
+            {
+                score += Time.deltaTime * 2;
+            }
+        }
         if (colorChange == false)
         {
             this.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
@@ -194,6 +202,15 @@ public class PlayerMovement : MonoBehaviour
     }
     public void Die()
     {
+        if (score > PlayerPrefs.GetFloat("Highscore"))
+        {
+            PlayerPrefs.SetFloat("Highscore", score);
+            PlayerPrefs.SetFloat("Currentscore", score);
+        }
+        else
+        {
+            PlayerPrefs.SetFloat("Currentscore", score);
+        }
         SceneManager.LoadScene(3);
     }
 }

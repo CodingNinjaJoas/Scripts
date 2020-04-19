@@ -5,12 +5,13 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
 	public PlayerMovement p;
+	public float waitBeforeSpawns;
 	public float timeBetweenSpawns;
 	public List<GameObject> enemies = new List<GameObject>();
 	public List<GameObject> spawnPoints = new List<GameObject>();
 	private void Start()
 	{
-		InvokeRepeating("Spawn",timeBetweenSpawns,timeBetweenSpawns);
+		InvokeRepeating("Spawn",waitBeforeSpawns,timeBetweenSpawns);
 	}
 	private void Spawn()
 	{

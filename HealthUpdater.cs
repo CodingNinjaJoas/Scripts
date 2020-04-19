@@ -7,6 +7,7 @@ public class HealthUpdater : MonoBehaviour
 {
     public Text foodT;
     public Text moneyT;
+    public Text scoreT;
     public List<GameObject> hearts = new List<GameObject>();
     public float localHealth;
     public PlayerMovement player;
@@ -14,7 +15,8 @@ public class HealthUpdater : MonoBehaviour
     {
         moneyT.text = ""+player.money;
         foodT.text = "" + player.food;
-
+        float f = Mathf.Round(player.score);
+        scoreT.text = "" + f;
         localHealth = player.health;
         if (localHealth <= 0)
         {

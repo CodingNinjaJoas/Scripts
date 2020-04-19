@@ -14,6 +14,7 @@ public class Spinkler : MonoBehaviour
 	public Transform coinHolder;
 	public GameObject target;
 	public CameraShake cameraS;
+	public GameObject damageFX;
 	public float hitDelay;
 	private float hittedDelay;
 	private void Start()
@@ -55,6 +56,7 @@ public class Spinkler : MonoBehaviour
 		}
 		if (other.CompareTag("InstaKill") == true)
 		{
+			player.GetComponent<PlayerMovement>().score += 10;
 			Destroy(this.gameObject,0.2f);
 		}	
 	}
@@ -64,6 +66,8 @@ public class Spinkler : MonoBehaviour
 		{
 			if (collision.transform.CompareTag("Player") == true)
 			{
+				GameObject f = Instantiate(damageFX, target.transform);
+				f.GetComponent<DestroyFX>().destroyFX = true;
 				player.GetComponent<PlayerMovement>().health--;
 				hittedDelay = hitDelay;
 				StartCoroutine(cameraS.Shake());
@@ -74,7 +78,7 @@ public class Spinkler : MonoBehaviour
 			if (collision.transform.CompareTag("Fimbledore") == true)
 			{
 				target.GetComponent<FimbleDore>().health--;
-				target.GetComponent<FimbleDore>().GotHit();
+				StartCoroutine(target.GetComponent<FimbleDore>().GotHit());
 				hittedDelay = hitDelay;
 			}
 		}
@@ -83,6 +87,7 @@ public class Spinkler : MonoBehaviour
 	{
 		if(health <= 0)
 		{
+			player.GetComponent<PlayerMovement>().score += 10;
 			GameObject g = Instantiate(coin,coinHolder);
 			g.transform.position = coinSpawnpoint.transform.position;
 			Destroy(this.gameObject);

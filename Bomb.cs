@@ -10,6 +10,7 @@ public class Bomb : MonoBehaviour
 	public CameraShake cameraS;
 	public GameObject explosionFX;
 	public Transform holderFX;
+	public GameObject damageFX;
 	private void Start()
 	{
 		
@@ -25,7 +26,9 @@ public class Bomb : MonoBehaviour
 				Collider2D collision = Physics2D.OverlapCircle(transform.position, range);
 				if (collision.CompareTag("Player") == true)
 				{
-					player.health--;
+				GameObject f =Instantiate(damageFX, holderFX);
+				f.GetComponent<DestroyFX>().destroyFX = true;
+				player.health--;
 					StartCoroutine(cameraS.Shake());
 					StartCoroutine(player.GotHit());
 					StartCoroutine(player.ColorChange());
@@ -33,7 +36,7 @@ public class Bomb : MonoBehaviour
 				if (collision.CompareTag("Fimbledore") == true)
 				{
 					target.health--;
-					target.GotHit();
+					StartCoroutine(target.GotHit());
 				}
 				Destroy(this.gameObject);
 

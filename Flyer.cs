@@ -60,6 +60,7 @@ public class Flyer : MonoBehaviour
 		}
 		if (other.CompareTag("InstaKill") == true)
 		{
+			player.GetComponent<PlayerMovement>().score += 30;
 			Destroy(this.gameObject, 0.2f);
 		}
 	}
@@ -76,6 +77,7 @@ public class Flyer : MonoBehaviour
 		Move(); 
 		if (health <= 0)
 		{
+			player.GetComponent<PlayerMovement>().score += 30;
 			GameObject g = Instantiate(coin, coinHolder);
 			g.transform.position = coinSpawnpoint.transform.position;
 			Destroy(this.gameObject);

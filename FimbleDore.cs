@@ -8,6 +8,7 @@ public class FimbleDore : MonoBehaviour
     public float health;
     public float food;
     public float baseFood;
+    
     public GameObject foodNeededPicture;
     public GameObject outline;
     public GameObject dialogue;
@@ -42,7 +43,28 @@ public class FimbleDore : MonoBehaviour
                 dialogue.SetActive(false);
             }
         }
-        
+        if (collision.transform.CompareTag("Player") == true)
+        {
+            if (food <= 0 && p.food > 0)
+            {
+                outline.SetActive(true);
+                pressEText.SetActive(true);
+
+            }
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                if (p.food > 0)
+                {
+                    food += baseFood;
+                    p.food--;
+                }
+            }
+        }
+        else
+        {
+            pressEText.SetActive(false);
+            outline.SetActive(false);
+        }
     }
     public void OnTriggerStay2D(Collider2D collision)
     {
@@ -122,6 +144,15 @@ public class FimbleDore : MonoBehaviour
     }
     public void Die()
     {
+        if (p.score > PlayerPrefs.GetFloat("Highscore"))
+        {
+            PlayerPrefs.SetFloat("Highscore", p.score);
+            PlayerPrefs.SetFloat("Currentscore", p.score);
+        }
+        else
+        {
+            PlayerPrefs.SetFloat("Currentscore", p.score);
+        }
         SceneManager.LoadScene(2);
     }
 
